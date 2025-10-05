@@ -1,5 +1,9 @@
 package mate.academy
 
+private const val EUR_RATE = 0.93
+private const val GBR_RATE = 0.82
+private const val DEFAULT_RATE = 1.0
+
 class FinancialService {
     fun transferFunds(
         source: AccountNumber,
@@ -24,9 +28,9 @@ class FinancialService {
     private fun getExchangeRate(fromCurrency: CurrencyCode, toCurrency: CurrencyCode): Double {
         // Placeholder exchange rate - in a real application, you'd fetch this from a financial API
         return when {
-            fromCurrency.code == "USD" && toCurrency.code == "EUR" -> 0.93
-            fromCurrency.code == "USD" && toCurrency.code == "GBP" -> 0.82
-            else -> 1.0
+            fromCurrency.code == "USD" && toCurrency.code == "EUR" -> EUR_RATE
+            fromCurrency.code == "USD" && toCurrency.code == "GBP" -> GBR_RATE
+            else -> DEFAULT_RATE
         }
     }
 }
@@ -59,6 +63,7 @@ value class TransactionId(val id: String) {
 @JvmInline
 value class AccountNumber(val number: String) {
     init {
-        require(number.length == ACCOUNT_LENGTH && number.all { it.isDigit() }) { "Wrong account number format: $number" }
+        require(
+            number.length == ACCOUNT_LENGTH && number.all { it.isDigit() }) { "Wrong account number format: $number" }
     }
 }
